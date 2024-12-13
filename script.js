@@ -1,44 +1,31 @@
+function decorateText() {
+  const textInput = document.getElementById('text-input');
+  const fontFamilySelect = document.getElementById('font-family');
+  const fontSizeInput = document.getElementById('font-size');
+  const colorInput = document.getElementById('color');
+  const decorationSelect = document.getElementById('decoration');
+  const resultDiv = document.getElementById('result');
 
-// وظيفة توليد الزخارف
-function generateDecorations() {
-    const name = document.getElementById("nameInput").value.trim();
-    const output = document.getElementById("decoratedNames");
-    output.innerHTML = "";
+  // القيم المدخلة
+  const text = textInput.value.trim();
+  const fontFamily = fontFamilySelect.value;
+  const fontSize = `${fontSizeInput.value}px`;
+  const color = colorInput.value;
+  const decoration = decorationSelect.value;
 
-    if (name === "") {
-        alert("يرجى كتابة الاسم");
-        return;
-    }
+  if (!text) {
+    resultDiv.innerHTML = '<p style="color: red;">الرجاء إدخال نص لتزيينه</p>';
+    return;
+  }
 
-    const decorations = [
-        `★彡[${name}]彡★`,
-        `ツ ✿ ${name} ✿ ツ`,
-        `꧁༒☠ ${name} ☠༒꧂`,
-        `𒆜 💎 ${name} 💎 𒆜`,
-        `⚡ ❖ ${name} ❖ ⚡`,
-        `✦ ${name} ✦`,
-        `☆ ${name} ☆`,
-        `♡ ${name} ♡`
-    ];
+  // إعداد النص المزخرف
+  const styledText = document.createElement('p');
+  styledText.style.fontFamily = fontFamily;
+  styledText.style.fontSize = fontSize;
+  styledText.style.color = color;
+  styledText.className = decoration; // تطبيق الزخرفة المختارة
+  styledText.textContent = text;
 
-    decorations.forEach(decoration => {
-        const span = document.createElement("span");
-        span.textContent = decoration;
-        span.addEventListener("click", () => copyToClipboard(decoration));
-        output.appendChild(span);
-    });
+  resultDiv.innerHTML = ''; // تفريغ النتائج السابقة
+  resultDiv.appendChild(styledText);
 }
-
-// وظيفة نسخ النص إلى الحافظة
-function copyToClipboard(text) {
-    const tempInput = document.createElement("textarea");
-    tempInput.value = text;
-    document.body.appendChild(tempInput);
-    tempInput.select();
-    document.execCommand("copy");
-    document.body.removeChild(tempInput);
-    alert("تم نسخ الزخرفة!");
-}
-
-// ربط زر التوليد بالوظيفة
-document.getElementById("generateButton").addEventListener("click", generateDecorations);
